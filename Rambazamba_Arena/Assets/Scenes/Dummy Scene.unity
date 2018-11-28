@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 608564843}
-  m_IndirectSpecularColor: {r: 0.1831197, g: 0.22878987, b: 0.30661428, a: 1}
+  m_IndirectSpecularColor: {r: 0.18311964, g: 0.22878961, b: 0.30661395, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1377,7 +1377,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1790,12 +1790,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18a0481e49a7d348bc102f2b0064c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets: []
-  offset: {x: 0, y: 26.3, z: -35}
+  targets:
+  - {fileID: 1184652635}
+  - {fileID: 1799782204}
+  offset: {x: 0, y: 34, z: -34}
   smoothTime: 0.5
-  minZoom: 60
-  maxZoom: 30
-  zoomLimiter: 22.5
+  minZoom: 50
+  maxZoom: 25
+  zoomLimiter: 10
 --- !u!1 &1342291345 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 58e2beb5b20e98944a39af316e5ec3c2,
@@ -2107,7 +2109,7 @@ GameObject:
   - component: {fileID: 1964037941}
   m_Layer: 0
   m_Name: Center
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

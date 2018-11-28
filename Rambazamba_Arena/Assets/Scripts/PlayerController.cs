@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.name == "Ground")
         {
             isGrounded = false;
+            airCounter = 0;
+            anim.SetFloat("fallCounter", airCounter);
         }
     }
 
@@ -54,16 +56,12 @@ public class PlayerController : MonoBehaviour {
         if (!isGrounded)
         {
             airCounter += Time.deltaTime;
-
-            if(airCounter >= groundlessTime)
-            {
-                anim.SetBool("isGrounded", isGrounded);
-            }
+            anim.SetFloat("fallCounter", airCounter);
+            anim.SetBool("isGrounded", isGrounded);
         }
         else
         {
             anim.SetBool("isGrounded", isGrounded);
-            airCounter = 0;
         }
 
         Attack();
