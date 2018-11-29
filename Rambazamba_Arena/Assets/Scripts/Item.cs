@@ -6,4 +6,5 @@ public class Item : MonoBehaviour
     public float attackSpeed;
 
     public bool isStaffWeapon;
+    public bool isFistItem;
 }

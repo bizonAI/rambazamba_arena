@@ -216,7 +216,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackValue: 1
   attackSpeed: 2
+  weapon: 0
   isStaffWeapon: 1
+  isFistItem: 0
 --- !u!135 &135337022337042964
 SphereCollider:
   m_ObjectHideFlags: 1

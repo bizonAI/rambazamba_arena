@@ -60,23 +60,41 @@ public class PlayerController : MonoBehaviour {
 
     void EquipNewItem()
     {
-        currentItem = Instantiate(sceneItem.Item, itemHolderRight.transform.position, itemHolderRight.transform.rotation);
-        currentItem.transform.parent = itemHolderRight.transform;
-        Destroy(sceneItem.gameObject);
-        //currentItem.transform.position = new Vector3(0, 0, 0);
+        if (sceneItem.weapon == SceneItem.WeaponType.staffWeapon)
+        {
+            Debug.Log("Is staff weapon");
+        }
 
-        //Get Stats From Item
+        if (sceneItem.weapon == SceneItem.WeaponType.fistWeapon)
+        {
+            Debug.Log("Is fist weapon");
+        }
 
-        //attack value
-        //attack speed
-        //is holding Weapon or fists
+        if (sceneItem.weapon == SceneItem.WeaponType.carryWeapon)
+        {
+            Debug.Log("Is carry weapon");
+        }
+
+        /*
+        currentItem = Instantiate(sceneItem.Item[0], itemHolderRight.transform.position, itemHolderRight.transform.rotation);
 
         item = currentItem.GetComponent<Item>();
 
+        
+        
+        currentItem.transform.parent = itemHolderRight.transform;
+        
         hasMeleeWeapon = true;
+
+
+
 
         anim.SetBool("hasMeleeWeapon", item.isStaffWeapon);
         anim.SetFloat("attackMultiplier", item.attackSpeed);
+
+
+        Destroy(sceneItem.gameObject);
+        */
     }
 
     void GetHit(float damage)
