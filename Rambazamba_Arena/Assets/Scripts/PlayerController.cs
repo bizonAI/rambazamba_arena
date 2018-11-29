@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
     float airCounter;
 
     bool rootMotionAnimationIsPlaying;
+    bool isWalking;
 
     //DEBUG PUBLIC
     public bool hasMeleeWeapon;
@@ -29,6 +30,12 @@ public class PlayerController : MonoBehaviour {
     bool isGrounded;
     public float groundlessTime = 0.5f;
 
+    SceneItem sceneItem;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     void GroundedChecker()
     {
@@ -44,6 +51,29 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    void EquipNewItem()
+    {
+        currentItem = Instantiate(sceneItem.Item, itemHolderRight.transform.position, itemHolderRight.transform.rotation);
+        currentItem.transform.parent = itemHolderRight.transform;
+        Destroy(sceneItem.gameObject);
+        //currentItem.transform.position = new Vector3(0, 0, 0);
+
+        //Get Stats From Item
+
+        //attack value
+        //attack speed
+        //is holding Weapon or fists
+
+        Item item = currentItem.GetComponent<Item>();
+
+        hasMeleeWeapon = true;
+
+        anim.SetBool("hasMeleeWeapon", item.isStaffWeapon);
+
+        anim.speed = 1;
+        
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         if(other.gameObject.name == "Ground")
@@ -53,15 +83,8 @@ public class PlayerController : MonoBehaviour {
 
         if(other.collider.tag == "Item")
         {
-            currentItem = Instantiate(other.gameObject.GetComponent<SceneItem>().Item, itemHolderRight.transform.position, itemHolderRight.transform.rotation);
-            currentItem.transform.parent = itemHolderRight.transform;
-
-            //currentItem.transform.position = new Vector3(0, 0, 0);
-
-            hasMeleeWeapon = true;
-            anim.SetBool("hasMeleeWeapon", hasMeleeWeapon);
-
-            Destroy(other.gameObject);
+            sceneItem = other.gameObject.GetComponent<SceneItem>();
+            EquipNewItem();
         }
     }
 
@@ -75,10 +98,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void Start()
-    {
-        anim = GetComponent<Animator>();
-    }
+    
 
     private void Update()
     {
@@ -111,10 +131,14 @@ public class PlayerController : MonoBehaviour {
             if (playerSpeed > 0)
             {
                 anim.applyRootMotion = false;
+                isWalking = true;
+                anim.SetBool("isWalking", isWalking);
                 transform.Translate(transform.forward * moveSpeed * Time.deltaTime, Space.World);
             } else if (playerSpeed == 0)
             {
                 anim.applyRootMotion = true;
+                isWalking = false;
+                anim.SetBool("isWalking", isWalking);
             }
 
             Vector3 movementOfl = new Vector3(xMove, 0.0f, yMove);
@@ -139,7 +163,7 @@ public class PlayerController : MonoBehaviour {
 
             if (!hasMeleeWeapon)
             {
-                if (!anim.GetCurrentAnimatorStateInfo(1).IsName("Boxing_Right") && !rootMotionAnimationIsPlaying)
+                if (!anim.GetCurrentAnimatorStateInfo(1).IsName("BoxingRight") && !rootMotionAnimationIsPlaying)
                 {
                     anim.SetTrigger("meleeAttack");
                 }
