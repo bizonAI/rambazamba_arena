@@ -8,6 +8,11 @@ public class PlayerController : MonoBehaviour {
     public GameObject meleeRightAttacker;
     public GameObject meleeLeftAttacker;
 
+    public GameObject itemHolderRight;
+    public GameObject itemHolderLeft;
+
+    GameObject currentItem;
+
     Animator anim;
 
     float xMovement;
@@ -18,20 +23,51 @@ public class PlayerController : MonoBehaviour {
 
     bool rootMotionAnimationIsPlaying;
 
+    //DEBUG PUBLIC
+    public bool hasMeleeWeapon;
+
     bool isGrounded;
     public float groundlessTime = 0.5f;
 
-    private void OnCollisionEnter(Collision collision)
+
+    void GroundedChecker()
     {
-        if(collision.gameObject.name == "Ground")
+        if (!isGrounded)
         {
-            isGrounded = true;
+            airCounter += Time.deltaTime;
+            anim.SetFloat("fallCounter", airCounter);
+            anim.SetBool("isGrounded", isGrounded);
+        }
+        else
+        {
+            anim.SetBool("isGrounded", isGrounded);
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        if (collision.gameObject.name == "Ground")
+        if(other.gameObject.name == "Ground")
+        {
+            isGrounded = true;
+        }
+
+        if(other.collider.tag == "Item")
+        {
+            currentItem = Instantiate(other.gameObject.GetComponent<SceneItem>().Item, itemHolderRight.transform.position, itemHolderRight.transform.rotation);
+            currentItem.transform.parent = itemHolderRight.transform;
+
+            //currentItem.transform.position = new Vector3(0, 0, 0);
+
+            hasMeleeWeapon = true;
+            anim.SetBool("hasMeleeWeapon", hasMeleeWeapon);
+
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.name == "Ground")
         {
             isGrounded = false;
             airCounter = 0;
@@ -52,29 +88,11 @@ public class PlayerController : MonoBehaviour {
             anim.SetTrigger("gotHit");
         }
 
-
-        if (!isGrounded)
-        {
-            airCounter += Time.deltaTime;
-            anim.SetFloat("fallCounter", airCounter);
-            anim.SetBool("isGrounded", isGrounded);
-        }
-        else
-        {
-            anim.SetBool("isGrounded", isGrounded);
-        }
-
+        GroundedChecker();
         Attack();
-        Walking();
     }
 
-    void Walking()
-    {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Running"))
-        {
-            anim.applyRootMotion = false;
-        }
-    }
+    
 
     private void FixedUpdate()
     {
@@ -83,6 +101,8 @@ public class PlayerController : MonoBehaviour {
 
         if (!rootMotionAnimationIsPlaying)
         {
+            Debug.Log("Can move player");
+
             playerSpeed = Mathf.Clamp(Mathf.Abs(xMove) + Mathf.Abs(yMove), 0, 1);
             anim.SetFloat("speedPercent", playerSpeed);
 
@@ -90,7 +110,11 @@ public class PlayerController : MonoBehaviour {
 
             if (playerSpeed > 0)
             {
+                anim.applyRootMotion = false;
                 transform.Translate(transform.forward * moveSpeed * Time.deltaTime, Space.World);
+            } else if (playerSpeed == 0)
+            {
+                anim.applyRootMotion = true;
             }
 
             Vector3 movementOfl = new Vector3(xMove, 0.0f, yMove);
@@ -109,22 +133,33 @@ public class PlayerController : MonoBehaviour {
 
     void Attack()
     {
-        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Boxing_Right"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            anim.applyRootMotion = true;
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && !rootMotionAnimationIsPlaying)
+            anim.SetBool("hasMeleeWeapon", hasMeleeWeapon);
+
+            if (!hasMeleeWeapon)
             {
-                anim.SetTrigger("meleeAttack");
+                if (!anim.GetCurrentAnimatorStateInfo(1).IsName("Boxing_Right") && !rootMotionAnimationIsPlaying)
+                {
+                    anim.SetTrigger("meleeAttack");
+                }
             }
+
+            if (hasMeleeWeapon)
+            {
+                if (!anim.GetCurrentAnimatorStateInfo(1).IsName("MeleeWeaponAttack") && !rootMotionAnimationIsPlaying)
+                {
+                    anim.SetTrigger("weaponMeleeAttack");
+                }
+            }
+            
         }
     }
 
     void RootMotionAnimationIsPlaying()
     {
         rootMotionAnimationIsPlaying = true;
+        anim.applyRootMotion = true;
     }
 
     void RootMotionAnimationStops()

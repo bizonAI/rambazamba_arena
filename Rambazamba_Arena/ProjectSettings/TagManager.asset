@@ -8,6 +8,7 @@ TagManager:
   - NetworkManager
   - Fire
   - MeleeAttacker
+  - Item
   layers:
   - Default
   - TransparentFX
