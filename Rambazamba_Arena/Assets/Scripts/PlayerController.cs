@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    Rigidbody rigid;
+
     public float moveSpeed = 5.0f;
+    public float jumpForce = 2.0f;
+    public float health = 100.0f;
+
     public GameObject meleeRightAttacker;
     public GameObject meleeLeftAttacker;
 
@@ -31,10 +36,12 @@ public class PlayerController : MonoBehaviour {
     public float groundlessTime = 0.5f;
 
     SceneItem sceneItem;
+    Item item;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
     }
 
     void GroundedChecker()
@@ -64,14 +71,37 @@ public class PlayerController : MonoBehaviour {
         //attack speed
         //is holding Weapon or fists
 
-        Item item = currentItem.GetComponent<Item>();
+        item = currentItem.GetComponent<Item>();
 
         hasMeleeWeapon = true;
 
         anim.SetBool("hasMeleeWeapon", item.isStaffWeapon);
+        anim.SetFloat("attackMultiplier", item.attackSpeed);
+    }
 
-        anim.speed = 1;
-        
+    void GetHit(float damage)
+    {
+        health -= damage;
+
+        if(health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("MeleeAttacker") && other.gameObject != meleeRightAttacker)
+        {
+            anim.SetTrigger("gotHit");
+            GetHit(other.GetComponent<Attacker>().damage);
+            Debug.Log("hit");
+        }
     }
 
     private void OnCollisionEnter(Collision other)
@@ -83,8 +113,11 @@ public class PlayerController : MonoBehaviour {
 
         if(other.collider.tag == "Item")
         {
-            sceneItem = other.gameObject.GetComponent<SceneItem>();
-            EquipNewItem();
+            if(item == null)
+            {
+                sceneItem = other.gameObject.GetComponent<SceneItem>();
+                EquipNewItem();
+            }
         }
     }
 
@@ -97,8 +130,6 @@ public class PlayerController : MonoBehaviour {
             anim.SetFloat("fallCounter", airCounter);
         }
     }
-
-    
 
     private void Update()
     {
@@ -153,6 +184,18 @@ public class PlayerController : MonoBehaviour {
             playerSpeed = 0;
             anim.SetFloat("speedPercent", playerSpeed);
         }
+
+        //JUMP 
+        if(isGrounded && Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            anim.SetTrigger("jump");
+        }
+    }
+
+    //Triggerd by animations
+    void Jump()
+    {
+        rigid.AddForce(transform.up * jumpForce * 100);
     }
 
     void Attack()
