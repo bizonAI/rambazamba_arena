@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    Rigidbody rigid;
+    
 
     public float moveSpeed = 5.0f;
     public float jumpForce = 2.0f;
@@ -16,9 +16,14 @@ public class PlayerController : MonoBehaviour {
     public GameObject itemHolderRight;
     public GameObject itemHolderLeft;
 
-    GameObject currentItem;
+    //Weapons
+    GameObject currentStaffWeapon;
+    GameObject currentFistWeaponLeft;
+    GameObject currenFistWeaponRight;
+    GameObject currentCarryWeapon;
 
     Animator anim;
+    Rigidbody rigid;
 
     float xMovement;
     float yMovement;
@@ -58,11 +63,19 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    /*
     void EquipNewItem()
     {
         if (sceneItem.weapon == SceneItem.WeaponType.staffWeapon)
         {
+            currentStaffWeapon = Instantiate(sceneItem.Item[0], itemHolderRight.transform.position, itemHolderRight.transform.rotation);
+            currentStaffWeapon.transform.parent = itemHolderRight.transform;
+
+            anim.SetBool("hasMeleeWeapon", true);
+
             Debug.Log("Is staff weapon");
+
+            item = currentStaffWeapon.GetComponent<Item>();
         }
 
         if (sceneItem.weapon == SceneItem.WeaponType.fistWeapon)
@@ -75,27 +88,8 @@ public class PlayerController : MonoBehaviour {
             Debug.Log("Is carry weapon");
         }
 
-        /*
-        currentItem = Instantiate(sceneItem.Item[0], itemHolderRight.transform.position, itemHolderRight.transform.rotation);
-
-        item = currentItem.GetComponent<Item>();
-
-        
-        
-        currentItem.transform.parent = itemHolderRight.transform;
-        
-        hasMeleeWeapon = true;
-
-
-
-
-        anim.SetBool("hasMeleeWeapon", item.isStaffWeapon);
-        anim.SetFloat("attackMultiplier", item.attackSpeed);
-
-
-        Destroy(sceneItem.gameObject);
-        */
     }
+    */
 
     void GetHit(float damage)
     {
@@ -129,14 +123,17 @@ public class PlayerController : MonoBehaviour {
             isGrounded = true;
         }
 
+
+        /*
         if(other.collider.tag == "Item")
         {
-            if(item == null)
+            if(item == null) //debuging purpose
             {
                 sceneItem = other.gameObject.GetComponent<SceneItem>();
                 EquipNewItem();
             }
         }
+        */
     }
 
     private void OnCollisionExit(Collision other)
@@ -175,8 +172,6 @@ public class PlayerController : MonoBehaviour {
             playerSpeed = Mathf.Clamp(Mathf.Abs(xMove) + Mathf.Abs(yMove), 0, 1);
             anim.SetFloat("speedPercent", playerSpeed);
 
-            Vector3 inputMovementOfl = new Vector3(xMove, 0, yMove);
-
             if (playerSpeed > 0)
             {
                 anim.applyRootMotion = false;
@@ -190,11 +185,11 @@ public class PlayerController : MonoBehaviour {
                 anim.SetBool("isWalking", isWalking);
             }
 
-            Vector3 movementOfl = new Vector3(xMove, 0.0f, yMove);
+            Vector3 movement = new Vector3(xMove, 0.0f, yMove);
 
-            if (movementOfl != Vector3.zero)
+            if (movement != Vector3.zero)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementOfl), 0.15F);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
             }
         }
         else
@@ -220,24 +215,15 @@ public class PlayerController : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            anim.SetBool("hasMeleeWeapon", hasMeleeWeapon);
-
-            if (!hasMeleeWeapon)
+            if (!anim.GetCurrentAnimatorStateInfo(1).IsName("BoxingRight") && !rootMotionAnimationIsPlaying)
             {
-                if (!anim.GetCurrentAnimatorStateInfo(1).IsName("BoxingRight") && !rootMotionAnimationIsPlaying)
-                {
-                    anim.SetTrigger("meleeAttack");
-                }
+                anim.SetTrigger("attack");
             }
 
-            if (hasMeleeWeapon)
+            if (!anim.GetCurrentAnimatorStateInfo(1).IsName("MeleeWeaponAttack") && !rootMotionAnimationIsPlaying)
             {
-                if (!anim.GetCurrentAnimatorStateInfo(1).IsName("MeleeWeaponAttack") && !rootMotionAnimationIsPlaying)
-                {
-                    anim.SetTrigger("weaponMeleeAttack");
-                }
+                anim.SetTrigger("attack");
             }
-            
         }
     }
 

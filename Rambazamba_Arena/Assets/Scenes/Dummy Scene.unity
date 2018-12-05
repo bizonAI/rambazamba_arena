@@ -265,7 +265,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: ebd09f888a8d7cd48b7bdd0ffa949330, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: ebd09f888a8d7cd48b7bdd0ffa949330, type: 3}
       propertyPath: m_RootOrder
@@ -1306,7 +1306,7 @@ Transform:
   m_Children:
   - {fileID: 1750776354}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &579485151
 GameObject:
@@ -1781,7 +1781,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1015169478
 Prefab:
@@ -2149,7 +2149,7 @@ Transform:
   m_Children:
   - {fileID: 717265084}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1554911917
 Prefab:
@@ -2188,7 +2188,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: ebd09f888a8d7cd48b7bdd0ffa949330, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: ebd09f888a8d7cd48b7bdd0ffa949330, type: 3}
       propertyPath: m_RootOrder
@@ -2357,7 +2357,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4089771584119044, guid: 57153a2eabf2a494eb07c08086217ca6, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 114888006874123202, guid: 57153a2eabf2a494eb07c08086217ca6,
         type: 2}
@@ -2478,6 +2478,17 @@ MonoBehaviour:
   itemHolderLeft: {fileID: 0}
   hasMeleeWeapon: 0
   groundlessTime: 0.5
+--- !u!114 &1799782206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1799782204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5caea34204c79884e8549da85d1da5ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &1799782207
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2506,6 +2517,20 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &1799782209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1799782204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 751c5000861245b479ceee37f113bdbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftItemHolder: {fileID: 0}
+  rightItemHolder: {fileID: 1931380434}
+  weaponType: 0
 --- !u!1001 &1844352503
 Prefab:
   m_ObjectHideFlags: 0
