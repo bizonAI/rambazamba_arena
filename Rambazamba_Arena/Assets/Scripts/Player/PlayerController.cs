@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    
-
     public float moveSpeed = 5.0f;
     public float jumpForce = 2.0f;
     public float health = 100.0f;
@@ -60,36 +58,9 @@ public class PlayerController : MonoBehaviour {
         else
         {
             anim.SetBool("isGrounded", isGrounded);
+            anim.SetFloat("fallCounter", 0);
         }
     }
-
-    /*
-    void EquipNewItem()
-    {
-        if (sceneItem.weapon == SceneItem.WeaponType.staffWeapon)
-        {
-            currentStaffWeapon = Instantiate(sceneItem.Item[0], itemHolderRight.transform.position, itemHolderRight.transform.rotation);
-            currentStaffWeapon.transform.parent = itemHolderRight.transform;
-
-            anim.SetBool("hasMeleeWeapon", true);
-
-            Debug.Log("Is staff weapon");
-
-            item = currentStaffWeapon.GetComponent<Item>();
-        }
-
-        if (sceneItem.weapon == SceneItem.WeaponType.fistWeapon)
-        {
-            Debug.Log("Is fist weapon");
-        }
-
-        if (sceneItem.weapon == SceneItem.WeaponType.carryWeapon)
-        {
-            Debug.Log("Is carry weapon");
-        }
-
-    }
-    */
 
     void GetHit(float damage)
     {
@@ -122,18 +93,6 @@ public class PlayerController : MonoBehaviour {
         {
             isGrounded = true;
         }
-
-
-        /*
-        if(other.collider.tag == "Item")
-        {
-            if(item == null) //debuging purpose
-            {
-                sceneItem = other.gameObject.GetComponent<SceneItem>();
-                EquipNewItem();
-            }
-        }
-        */
     }
 
     private void OnCollisionExit(Collision other)
@@ -224,6 +183,15 @@ public class PlayerController : MonoBehaviour {
             {
                 anim.SetTrigger("attack");
             }
+
+            // if carry somthing 
+            /*
+            if ()
+            {
+                set animation to let something falling 
+                spawn object at players position
+            }
+            */
         }
     }
 
