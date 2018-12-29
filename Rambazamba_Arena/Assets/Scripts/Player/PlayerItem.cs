@@ -78,7 +78,6 @@ public class PlayerItem : MonoBehaviour
         if (other.gameObject.tag == "Item")
         {
             
-
             sceneItem = other.gameObject.GetComponent<SceneItem>();
             SetWeaponType();
         }
