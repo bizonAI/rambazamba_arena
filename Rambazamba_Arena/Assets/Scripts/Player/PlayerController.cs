@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("MeleeAttacker") && other.gameObject != meleeRightAttacker)
+        if (other.CompareTag("MeleeAttacker") && /*other.gameObject != meleeRightAttacker*/ !other.gameObject.transform.IsChildOf(gameObject.transform))
         {
             anim.SetTrigger("gotHit");
             GetHit(other.GetComponent<Attacker>().damage);
