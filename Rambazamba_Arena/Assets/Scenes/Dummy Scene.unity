@@ -6537,7 +6537,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595711376}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -8490,7 +8490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 359668102, guid: 99490f0a062174e6f8024dd4de80416a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 359668102, guid: 99490f0a062174e6f8024dd4de80416a, type: 3}
       propertyPath: m_LocalPosition.z
