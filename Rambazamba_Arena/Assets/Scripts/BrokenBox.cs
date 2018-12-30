@@ -6,29 +6,22 @@ public class BrokenBox : MonoBehaviour
 {
 
     public GameObject brokenSupplyBox;
+    public int hitsToDestroy = 3;
+    public int currentHitAmount = 0;
 
-    public int HitsToDestroy = 3;
-    public int CurrentHitAmount = 0;
-
-    // Use this for initialization
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
-
-        if (CurrentHitAmount >= HitsToDestroy)
+        if (other.CompareTag("MeleeAttacker"))
         {
-            Instantiate(brokenSupplyBox, gameObject.transform.position, gameObject.transform.rotation);
-            Destroy(gameObject);
-        }
+            currentHitAmount += 1;
 
-
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Item")
-        {
-            CurrentHitAmount += 1;
-
+            if (currentHitAmount >= hitsToDestroy)
+            {
+                Instantiate(brokenSupplyBox, gameObject.transform.position, gameObject.transform.rotation);
+                Destroy(gameObject);
+            }
         }
     }
+
+ 
 }
